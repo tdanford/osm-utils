@@ -1,0 +1,47 @@
+A quick description of the code: 
+
+XMLTreeElement
+XMLTreeHandler 
+	These are the two basic classes that interface with the org.xml.sax package,
+	and let us easily parse the parts of an XML file that we want.  XMLTreeHandler
+	defines a set of callbacks which are invoked as the XML is parsed.  XMLTreeElement
+	is a simple tree datastructure which stores the elements and their attributes
+	as they are parsed.  To use XMLTreeHandler, a subclass of it should be defined,
+	and the method addTag() invoked in the constructor to indicate which xml tags we
+	want to pay attention to.  
+	
+OSMXmlParser
+	This is a subclass of XMLTreeHandler -- it pays attention to the 'node', 'way', 
+	'osm', and 'tag' XML tags, and assembles them into the appropriate OSMNode and 
+	OSMWay objects.  
+	
+OSMNode
+OSMWay
+	These are the two core data structures of this implementation. The OSM file format
+	defines two basic kinds of data -- "nodes", which are point locations defined by 
+	a unique ID along with a latitude and a longitude (as well as other meta-information), 
+	and "ways", which define ordered collections of nodes.  Some "ways" are "closed," 
+	which is indicated by the first and last nodes being identical, and are (often) used
+	to define non-road-like structures such as buildings.  
+	
+OSMMap
+	This class ties set of OSMNode and OSMWay objects into a single uniform whole.  
+	It handles things like "extents" (in lat/long space), and it knows how to render itself
+	to a java.awt.Graphics2D object. The core method here is the "layout", which 
+	transforms latitude/longitude pairs of the OSMNodes into x,y coordinates on some 
+	(virtual) screen coordinate space.  
+
+OSMViewPanel 
+	This is the final component -- it's a custom Swing component that knows how to 
+	display an OSMMap into a JPanel.  It has a static inner class, Frame, that can be 
+	used if this is a standalone viewer.  
+	
+	The main() method in this class is the starting point for the code -- it should 
+	be called with a single argument, the filename of the OSM (XML) file from which the 
+	data will be read.  
+	
+MapLayoutEvent
+MapLayoutListener
+	Two utility classes for communicating between OSMMap and OSMViewPanel (or anything
+	else that wants to listen to the OSMMap).  OSMMap fires MapLayoutEvent objects, any 
+	time that it either clears its current layout, or completes a new layout.  
