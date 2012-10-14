@@ -23,12 +23,19 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.3.1</version>
 			<scope>test</scope>
 		</dependency>
-	
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -43,11 +50,11 @@
 		</dependency>
 
 		<!-- SPRING -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
-        </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
@@ -58,10 +65,10 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
-        </dependency>
+		</dependency>
 	</dependencies>
 </project>
