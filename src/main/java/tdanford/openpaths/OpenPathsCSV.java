@@ -9,13 +9,13 @@ public class OpenPathsCSV implements Iterator<OpenPathRecord> {
 
 	private BufferedReader br;
 	private OpenPathRecord nextRecord;
-	
+
 	private static InputStream openFile(File f) throws IOException { 
 		InputStream is = new FileInputStream(f);
 		if(f.getName().toLowerCase().endsWith(".gz")) { is = new GZIPInputStream(is); }
 		return is;
 	}
-	
+
 	public OpenPathsCSV(File f) throws IOException { 
 		this(openFile(f));
 	}
@@ -31,12 +31,16 @@ public class OpenPathsCSV implements Iterator<OpenPathRecord> {
 		if(br != null) { 
 			try {
 				String line = br.readLine();
-				String[] array = line.split(",");
-				if(array.length != 7) { 
-					throw new IllegalStateException(String.format("Line \"%s\" doesn't have seven fields", line)); 
+				if(line != null) { 
+					String[] array = line.split(",");
+					if(array.length != 7) { 
+						throw new IllegalStateException(String.format("Line \"%s\" doesn't have seven fields", line)); 
+					}
+					nextRecord = new OpenPathRecord(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+				} else { 
+					close();
 				}
-				nextRecord = new OpenPathRecord(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
-				
+
 			} catch (IOException e) {
 				try {
 					close();
@@ -49,9 +53,11 @@ public class OpenPathsCSV implements Iterator<OpenPathRecord> {
 		}
 	}
 
-	public void close() throws IOException { 
-		br.close();
-		br = null;
+	public void close() throws IOException {
+		if(br != null) { 
+			br.close();
+			br = null;
+		}
 	}
 
 	@Override
